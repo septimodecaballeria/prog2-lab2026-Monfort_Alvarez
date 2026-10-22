@@ -1,13 +1,12 @@
-# [Pendiente: nombre del proyecto]
+# ChemLab - Sistema de gestión de recursos de un laboratorio de química
 
 Trabajo de Programación 2 del CeRP del Suroeste, modalidad semipresencial.
 Docente: Domingo Pérez. Año: 2026.
 
 ## Integrantes
 
-- [Pendiente: nombre completo del primer integrante].
-- [Pendiente: nombre completo del segundo integrante].
-- [Solo si corresponde: nombre completo del tercer integrante].
+- Nicolás Monfort
+- Jorge Álvarez
 
 ## Estado del proyecto
 
@@ -25,46 +24,71 @@ detalla los requisitos.
 
 ## Problema y destinatarios
 
-**Pendiente de definir:** qué problema abordamos, en qué contexto se presenta
-y quiénes utilizarán la aplicación.
+Los laboratorios de química utilizan diferentes materiales y equipos que necesitan ser registrados y organizados. La falta de un registro centralizado dificulta conocer qué materiales están disponibles y cuáles se encuentran fuera de servicio.
+
+ChemLab busca facilitar esta tarea mediante una aplicación destinada a las personas encargadas de administrar los recursos de un laboratorio de química.
 
 ## Utilidad de la solución
 
-**Pendiente de fundamentar:** qué tareas facilitará el sistema y qué ventajas
-ofrecerá a sus destinatarios.
+ChemLab permitirá registrar los materiales y equipos de un laboratorio de química, consultar sus características, modificar sus datos, eliminarlos y buscarlos de manera sencilla.
+
+La aplicación facilitará el control de los recursos disponibles y permitirá conservar la información en un archivo JSON, evitando que los datos se pierdan al cerrar el programa.
 
 ## Adaptación del modelo y reglas
 
-El modelo inicial contiene registros con identificador, nombre, categoría y
-estado activo.
+ChemLab adapta el sistema de registros proporcionado por el docente para gestionar materiales y equipos de un laboratorio de química.
 
-**Pendiente de implementar y documentar:** qué representará un registro en
-nuestro proyecto, qué atributos agregaremos o cambiaremos y cuáles serán las
-categorías y operaciones propias del problema.
+Cada registro contiene seis atributos:
 
-| Validación requerida | Regla de nuestro proyecto | Estado |
-| --- | --- | --- |
-| Primera validación | Pendiente de definir. | Sin implementar. |
-| Segunda validación | Pendiente de definir. | Sin implementar. |
-| Tercera validación, propia del problema | Pendiente de definir. | Sin implementar. |
+- **Identificador:** número único que permite distinguir cada material.
+- **Nombre:** denominación del material o equipo.
+- **Categoría:** clasificación según su función en el laboratorio.
+- **Cantidad:** número de unidades disponibles.
+- **Estado:** indica si el material se encuentra activo o inactivo.
+- **Observaciones:** información adicional sobre el material, como su estado de conservación o necesidades de mantenimiento.
 
-También falta implementar el identificador único, la selección y modificación,
-la eliminación con confirmación, la búsqueda, la limpieza del formulario y la
-actualización del listado. La lectura y escritura JSON están disponibles como
-infraestructura; falta integrar el guardado con las operaciones.
+### Categorías de materiales
+
+Se establecen cinco categorías: material volumétrico, material de vidrio, instrumentos de medición, equipos de laboratorio y material de calentamiento.
+
+### Reglas y validaciones
+
+Para garantizar la coherencia de los registros, se establecen las siguientes condiciones:
+
+1. El identificador debe ser positivo y único.
+2. El nombre es obligatorio y no puede estar vacío.
+3. La categoría debe corresponder a una de las categorías establecidas.
+4. La cantidad debe ser un número entero igual o mayor que cero.
+5. Un material sin unidades disponibles no puede figurar como activo.
+6. Las observaciones son opcionales.
+
+La regla específica del laboratorio establece que, cuando la cantidad de un material llega a cero, su estado debe cambiar a inactivo.
+
+Estas reglas forman parte del diseño de ChemLab. Su funcionamiento se comprobará en la versión actualizada de la aplicación.
 
 ## Componentes gráficos
 
-La base incluye JTextField, JComboBox, JCheckBox, JButton y JTable.
-JLabel y los contenedores de apoyo no cuentan para alcanzar el mínimo solicitado.
+ChemLab utilizará ocho tipos diferentes de componentes gráficos de Java Swing, cada uno con una función específica dentro de la aplicación.
 
-Los tres tipos nuevos todavía no fueron elegidos ni implementados:
+### Componentes del proyecto original
 
-| Componente nuevo | Dato o acción real que permitirá gestionar | Estado |
-| --- | --- | --- |
-| Pendiente de elegir. | Pendiente de definir. | Sin implementar. |
-| Pendiente de elegir. | Pendiente de definir. | Sin implementar. |
-| Pendiente de elegir. | Pendiente de definir. | Sin implementar. |
+| Componente | Función |
+|---|---|
+| JTextField | Introducir identificadores, nombres y criterios de búsqueda. |
+| JComboBox | Seleccionar la categoría del material. |
+| JCheckBox | Indicar si un material está activo o inactivo. |
+| JButton | Ejecutar las operaciones de registro, modificación, eliminación, búsqueda y guardado. |
+| JTable | Mostrar los materiales registrados y permitir seleccionarlos. |
+
+### Componentes adicionales
+
+| Componente | Función | Estado |
+|---|---|---|
+| JTextArea | Escribir observaciones sobre los materiales. | Incorporado en el desarrollo documentado por el equipo; pendiente de verificar en GitHub. |
+| JSpinner | Introducir la cantidad de unidades disponibles mediante un control numérico. | Propuesto, pendiente de implementar. |
+| JList | Seleccionar categorías para filtrar los materiales del laboratorio. | Propuesto, pendiente de implementar. |
+
+Los componentes adicionales deberán integrarse con las operaciones del sistema y cumplir funciones reales. Su implementación y funcionamiento se comprobarán mediante pruebas antes de la entrega final.
 
 ## Organización de paquetes y recorrido de una operación
 
