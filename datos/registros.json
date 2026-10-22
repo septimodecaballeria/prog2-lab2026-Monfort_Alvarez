@@ -1,20 +1,26 @@
 [
   {
     "identificador": 1,
-    "nombre": "Registro de ejemplo A",
-    "categoria": "General",
-    "activo": true
+    "nombre": "Probeta graduada",
+    "categoria": "Material volumétrico",
+    "cantidad": 10,
+    "activo": true,
+    "observaciones": "Revisar graduación"
   },
   {
     "identificador": 2,
-    "nombre": "Registro de ejemplo B",
-    "categoria": "Materiales",
-    "activo": false
+    "nombre": "Balanza digital",
+    "categoria": "Instrumentos de medición",
+    "cantidad": 2,
+    "activo": true,
+    "observaciones": "Verificar calibración"
   },
   {
     "identificador": 3,
-    "nombre": "Registro de ejemplo C",
-    "categoria": "Servicios",
-    "activo": true
+    "nombre": "Mechero Bunsen",
+    "categoria": "Material de calentamiento",
+    "cantidad": 0,
+    "activo": false,
+    "observaciones": "Sin unidades disponibles"
   }
 ]

@@ -1,3 +1,4 @@
+
 package vista;
 
 import java.awt.BorderLayout;
@@ -13,46 +14,74 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Registro;
 
 public class VentanaPrincipal extends JFrame {
+
     private final JTextField campoIdentificador = new JTextField(10);
     private final JTextField campoNombre = new JTextField(20);
+
     private final JComboBox<String> comboCategoria =
-            new JComboBox<>(new String[] {"General", "Materiales", "Servicios"});
+            new JComboBox<>(Registro.CATEGORIAS.toArray(new String[0]));
+
+    private final JTextField campoCantidad = new JTextField(10);
     private final JCheckBox casillaActivo = new JCheckBox("Activo", true);
+    private final JTextArea campoObservaciones = new JTextArea(3, 20);
+
     private final JTextField campoBusqueda = new JTextField(20);
+
     private final JButton botonRegistrar = new JButton("Registrar");
     private final JButton botonModificar = new JButton("Modificar");
     private final JButton botonEliminar = new JButton("Eliminar");
     private final JButton botonBuscar = new JButton("Buscar");
     private final JButton botonLimpiar = new JButton("Limpiar");
     private final JButton botonGuardar = new JButton("Guardar");
+
     private final DefaultTableModel modeloTabla = new DefaultTableModel(
-            new String[] {"Identificador", "Nombre", "Categoria", "Activo"}, 0) {
+            new String[] {
+                "Identificador",
+                "Nombre",
+                "Categoría",
+                "Cantidad",
+                "Activo",
+                "Observaciones"
+            }, 0) {
         @Override
         public boolean isCellEditable(int fila, int columna) {
             return false;
         }
     };
+
     private final JTable tablaRegistros = new JTable(modeloTabla);
 
     public VentanaPrincipal() {
-        super("Gestor de registros - Prototipo");
+        super("ChemLab - Gestión de materiales de laboratorio");
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        JPanel formulario = new JPanel(new GridLayout(4, 2, 5, 5));
+        JPanel formulario = new JPanel(new GridLayout(6, 2, 5, 5));
+
         formulario.add(new JLabel("Identificador:"));
         formulario.add(campoIdentificador);
+
         formulario.add(new JLabel("Nombre:"));
         formulario.add(campoNombre);
-        formulario.add(new JLabel("Categoria:"));
+
+        formulario.add(new JLabel("Categoría:"));
         formulario.add(comboCategoria);
+
+        formulario.add(new JLabel("Cantidad disponible:"));
+        formulario.add(campoCantidad);
+
         formulario.add(new JLabel("Estado:"));
         formulario.add(casillaActivo);
+
+        formulario.add(new JLabel("Observaciones:"));
+        formulario.add(new JScrollPane(campoObservaciones));
 
         JPanel acciones = new JPanel(new FlowLayout());
         acciones.add(botonRegistrar);
@@ -61,40 +90,46 @@ public class VentanaPrincipal extends JFrame {
         acciones.add(botonLimpiar);
         acciones.add(botonGuardar);
 
-        JPanel panelSuperior = new JPanel(new BorderLayout());
+        JPanel panelSuperior = new JPanel(new BorderLayout(5, 5));
         panelSuperior.add(formulario, BorderLayout.CENTER);
         panelSuperior.add(acciones, BorderLayout.SOUTH);
 
         JPanel busqueda = new JPanel(new FlowLayout());
-        busqueda.add(new JLabel("Buscar:"));
+        busqueda.add(new JLabel("Buscar por identificador o nombre:"));
         busqueda.add(campoBusqueda);
         busqueda.add(botonBuscar);
 
         add(panelSuperior, BorderLayout.NORTH);
         add(new JScrollPane(tablaRegistros), BorderLayout.CENTER);
         add(busqueda, BorderLayout.SOUTH);
-        setSize(800, 450);
+
+        setSize(1000, 600);
         setLocationRelativeTo(null);
     }
 
     public void mostrarRegistros(List<Registro> registros) {
         modeloTabla.setRowCount(0);
+
         for (Registro registro : registros) {
             modeloTabla.addRow(new Object[] {
                 registro.getIdentificador(),
                 registro.getNombre(),
                 registro.getCategoria(),
-                registro.isActivo() ? "Si" : "No"
+                registro.getCantidad(),
+                registro.isActivo() ? "Sí" : "No",
+                registro.getObservaciones()
             });
         }
     }
 
     public void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje, "Prototipo", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(
+                this, mensaje, "ChemLab", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarError(String mensaje) {
-        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public JTextField getCampoIdentificador() {
@@ -109,8 +144,16 @@ public class VentanaPrincipal extends JFrame {
         return comboCategoria;
     }
 
+    public JTextField getCampoCantidad() {
+        return campoCantidad;
+    }
+
     public JCheckBox getCasillaActivo() {
         return casillaActivo;
+    }
+
+    public JTextArea getCampoObservaciones() {
+        return campoObservaciones;
     }
 
     public JTextField getCampoBusqueda() {
