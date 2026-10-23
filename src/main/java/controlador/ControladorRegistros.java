@@ -1,11 +1,13 @@
 
 package controlador;
 
-import fachada.FachadaRegistros;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
-import vista.VentanaPrincipal;
+
+import fachada.FachadaRegistros;
 import modelo.Registro;
+import vista.VentanaPrincipal;
 
 public class ControladorRegistros {
 
@@ -115,7 +117,7 @@ public class ControladorRegistros {
         vista.getCampoIdentificador().setText("");
         vista.getCampoNombre().setText("");
         vista.getComboCategoria().setSelectedIndex(0);
-        vista.getCampoCantidad().setText("");
+        vista.getCampoCantidad().setValue(0);
         vista.getCasillaActivo().setSelected(true);
         vista.getCampoObservaciones().setText("");
         vista.getCampoBusqueda().setText("");
@@ -168,8 +170,7 @@ public class ControladorRegistros {
 
     private int leerCantidad() {
         try {
-            int cantidad = Integer.parseInt(
-                    vista.getCampoCantidad().getText().trim());
+        int cantidad = ((Number) vista.getCampoCantidad().getValue()).intValue();
 
             if (cantidad < 0) {
                 throw new IllegalArgumentException(
@@ -205,8 +206,7 @@ public class ControladorRegistros {
                     String.valueOf(registro.getIdentificador()));
             vista.getCampoNombre().setText(registro.getNombre());
             vista.getComboCategoria().setSelectedItem(registro.getCategoria());
-            vista.getCampoCantidad().setText(
-                    String.valueOf(registro.getCantidad()));
+vista.getCampoCantidad().setValue(registro.getCantidad());
             vista.getCasillaActivo().setSelected(registro.isActivo());
             vista.getCampoObservaciones().setText(registro.getObservaciones());
 

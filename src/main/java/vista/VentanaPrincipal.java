@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -13,10 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
+
 import modelo.Registro;
 
 public class VentanaPrincipal extends JFrame {
@@ -27,7 +31,7 @@ public class VentanaPrincipal extends JFrame {
     private final JComboBox<String> comboCategoria =
             new JComboBox<>(Registro.CATEGORIAS.toArray(new String[0]));
 
-    private final JTextField campoCantidad = new JTextField(10);
+private final JSpinner campoCantidad = new JSpinner(new SpinnerNumberModel(0, 0, 999999, 1));
     private final JCheckBox casillaActivo = new JCheckBox("Activo", true);
     private final JTextArea campoObservaciones = new JTextArea(3, 20);
 
@@ -144,7 +148,7 @@ public class VentanaPrincipal extends JFrame {
         return comboCategoria;
     }
 
-    public JTextField getCampoCantidad() {
+  public JSpinner getCampoCantidad() {
         return campoCantidad;
     }
 
