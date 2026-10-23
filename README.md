@@ -13,10 +13,15 @@ Docente: Domingo Pérez. Año: 2026.
 Partimos del prototipo docente de un gestor de registros en Java y Swing,
 organizado con MVC, fachada y persistencia en JSON.
 
-**Actualmente solo está disponible el prototipo.** La ventana muestra tres
-registros de ejemplo del archivo JSON. Los botones Registrar, Modificar,
-Eliminar, Buscar, Limpiar y Guardar muestran un aviso de funcionalidad pendiente.
-Seleccionar una fila todavía no carga sus datos en el formulario.
+
+ChemLab es una aplicación de escritorio desarrollada en Java Swing para gestionar materiales de un laboratorio de química.
+
+Actualmente permite registrar, modificar, eliminar, buscar y guardar materiales. Cada registro incluye identificador, nombre, categoría, cantidad disponible, estado y observaciones.
+
+La interfaz incorpora controles de validación, selección de registros desde una tabla y filtrado por categorías mediante JList. También permite recuperar el listado completo con el botón "Mostrar todos".
+
+La información se almacena en un archivo JSON.
+
 
 Los apartados marcados como **Pendiente** deben completarse con nuestro
 desarrollo real antes de entregar. La [consigna del laboratorio](docs/letra.md)
@@ -82,13 +87,15 @@ ChemLab utilizará ocho tipos diferentes de componentes gráficos de Java Swing,
 
 ### Componentes adicionales
 
+
 | Componente | Función | Estado |
 |---|---|---|
-| JTextArea | Escribir observaciones sobre los materiales. | Incorporado en el desarrollo documentado por el equipo; pendiente de verificar en GitHub. |
-| JSpinner | Introducir la cantidad de unidades disponibles mediante un control numérico. | Propuesto, pendiente de implementar. |
-| JList | Seleccionar categorías para filtrar los materiales del laboratorio. | Propuesto, pendiente de implementar. |
+| JTextArea | Registrar observaciones sobre los materiales. | Implementado. |
+| JSpinner | Gestionar la cantidad disponible mediante un control numérico. | Implementado. |
+| JList | Filtrar los materiales por categoría y recuperar el listado completo mediante el botón "Mostrar todos". | Implementado. |
 
-Los componentes adicionales deberán integrarse con las operaciones del sistema y cumplir funciones reales. Su implementación y funcionamiento se comprobarán mediante pruebas antes de la entrega final.
+Los tres componentes adicionales están incorporados a la interfaz de ChemLab.
+
 
 ## Organización de paquetes y recorrido de una operación
 
@@ -206,8 +213,9 @@ reemplazarlo. La fachada bloquea el guardado cuando la carga no fue correcta.
 Los errores de escritura se propagan al controlador; falta integrar el guardado
 y sus mensajes con las operaciones del equipo.
 
-**En el estado actual, ningún botón guarda datos y cerrar la ventana tampoco
-guarda.**
+
+El botón "Guardar" permite almacenar los registros en el archivo JSON. Al cerrar la ventana, los cambios no se guardan automáticamente.
+
 
 ## Pruebas realizadas y limitaciones conocidas
 
@@ -249,9 +257,9 @@ realmente observado. No se consideran aprobadas por estar incluidas en la tabla.
 | Incumplir la regla propia del problema. | Rechazar la operación y explicar el motivo. | Pendiente: regla sin implementar. |
 | Modificar un registro seleccionado. | Actualizarlo conservando su identificador, sin duplicarlo. | Pendiente: modificación sin implementar. |
 | Cancelar una eliminación y confirmar otra con un registro de prueba. | Conservar el primero y eliminar solo el confirmado. | Pendiente: eliminación sin implementar. |
-| Aplicar una búsqueda o filtro. | Mostrar únicamente los registros que cumplen el criterio. | Pendiente: búsqueda sin implementar. |
-| Limpiar el formulario. | Dejarlo preparado para una nueva operación. | Pendiente: limpieza sin implementar. |
-| Crear y modificar datos, guardar, cerrar y volver a abrir. | Recuperar los cambios desde el JSON. | Pendiente: guardado sin integrar. |
+| Aplicar una búsqueda o filtro. | Mostrar únicamente los registros que cumplen el criterio. | Comprobado: búsqueda por nombre y filtrado por categoría funcionando correctamente. |
+| Limpiar el formulario. | Dejarlo preparado para una nueva operación. | Comprobado: limpia los campos y recupera el listado completo. |
+| Crear y modificar datos, guardar, cerrar y volver a abrir. | Recuperar los cambios desde el JSON. | Pendiente de comprobar: verificar que los cambios guardados se recuperan al volver a abrir la aplicación. |
 | Iniciar sin JSON y con JSON inválido, usando copias de prueba. | Mantener el manejo de errores de la base. | Pendiente: volver a comprobar tras nuestros cambios. |
 
 Las limitaciones actuales son las funciones pendientes descritas en este
@@ -276,7 +284,7 @@ de nuestra entrega.
 | Integrante | Aportes realizados |
 | --- | --- |
 | Pendiente: primer integrante. | Pendiente de registrar aportes concretos. |
-| Pendiente: segundo integrante. | Pendiente de registrar aportes concretos. |
+| Jorge Álvarez | Incorporación de JSpinner para gestionar cantidades, JList para filtrar materiales por categoría y mejoras en la interfaz gráfica. |
 
 Agregar una tercera fila solamente si corresponde. Todos los integrantes deben
 conocer la solución completa y participar en el video.
