@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,7 +31,7 @@ public class VentanaPrincipal extends JFrame {
 
     private final JComboBox<String> comboCategoria =
             new JComboBox<>(Registro.CATEGORIAS.toArray(new String[0]));
-
+private final JList<String> listaCategorias = new JList<>(Registro.CATEGORIAS.toArray(new String[0]));
 private final JSpinner campoCantidad = new JSpinner(new SpinnerNumberModel(0, 0, 999999, 1));
     private final JCheckBox casillaActivo = new JCheckBox("Activo", true);
     private final JTextArea campoObservaciones = new JTextArea(3, 20);
@@ -60,33 +61,52 @@ private final JSpinner campoCantidad = new JSpinner(new SpinnerNumberModel(0, 0,
     };
 
     private final JTable tablaRegistros = new JTable(modeloTabla);
-
+private final javax.swing.table.TableRowSorter<DefaultTableModel> filtroTabla = new javax.swing.table.TableRowSorter<>(modeloTabla);
     public VentanaPrincipal() {
         super("ChemLab - Gestión de materiales de laboratorio");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
+tablaRegistros.setRowSorter(filtroTabla);
+        listaCategorias.addListSelectionListener(evento -> {
+    if (!evento.getValueIsAdjusting()) {
+        String categoria = listaCategorias.getSelectedValue();
+        filtroTabla.setRowFilter(categoria == null ? null :
+            javax.swing.RowFilter.regexFilter("^" + java.util.regex.Pattern.quote(categoria) + "$", 2));
+    }
+});
+        
+JPanel formulario = new JPanel(new BorderLayout(15, 0));
+formulario.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        JPanel formulario = new JPanel(new GridLayout(6, 2, 5, 5));
+JPanel etiquetas = new JPanel(new GridLayout(6, 1, 5, 5));
+etiquetas.setPreferredSize(new java.awt.Dimension(185, 0));
 
-        formulario.add(new JLabel("Identificador:"));
-        formulario.add(campoIdentificador);
+etiquetas.add(new JLabel("Identificador:"));
+etiquetas.add(new JLabel("Nombre:"));
+etiquetas.add(new JLabel("Categoría:"));
+etiquetas.add(new JLabel("Cantidad disponible:"));
+etiquetas.add(new JLabel("Estado:"));
+etiquetas.add(new JLabel("Observaciones:"));
 
-        formulario.add(new JLabel("Nombre:"));
-        formulario.add(campoNombre);
+JPanel campos = new JPanel(new GridLayout(6, 1, 5, 5));
+JPanel filaIdentificador = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 15));
+filaIdentificador.add(campoIdentificador);
+campos.add(filaIdentificador);
+JPanel filaNombre = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 15));
+filaNombre.add(campoNombre);
+campos.add(filaNombre);
+JPanel filaCategoria = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 15));
+filaCategoria.add(comboCategoria);
+campos.add(filaCategoria);
+JPanel filaCantidad = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 15));
+filaCantidad.add(campoCantidad);
+campos.add(filaCantidad);
+campos.add(casillaActivo);
+campos.add(new JScrollPane(campoObservaciones));
 
-        formulario.add(new JLabel("Categoría:"));
-        formulario.add(comboCategoria);
-
-        formulario.add(new JLabel("Cantidad disponible:"));
-        formulario.add(campoCantidad);
-
-        formulario.add(new JLabel("Estado:"));
-        formulario.add(casillaActivo);
-
-        formulario.add(new JLabel("Observaciones:"));
-        formulario.add(new JScrollPane(campoObservaciones));
-
+formulario.add(etiquetas, BorderLayout.WEST);
+formulario.add(campos, BorderLayout.CENTER);
         JPanel acciones = new JPanel(new FlowLayout());
         acciones.add(botonRegistrar);
         acciones.add(botonModificar);
@@ -102,12 +122,21 @@ private final JSpinner campoCantidad = new JSpinner(new SpinnerNumberModel(0, 0,
         busqueda.add(new JLabel("Buscar por identificador o nombre:"));
         busqueda.add(campoBusqueda);
         busqueda.add(botonBuscar);
-
+        listaCategorias.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+JPanel filtros = new JPanel(new BorderLayout(5, 5));
+filtros.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+filtros.setPreferredSize(new java.awt.Dimension(310, 0));
+filtros.add(new JLabel("Filtrar por categoría:"), BorderLayout.NORTH);
+filtros.add(new JScrollPane(listaCategorias), BorderLayout.CENTER);
+JButton botonMostrarTodos = new JButton("Mostrar todos");
+botonMostrarTodos.addActionListener(evento -> listaCategorias.clearSelection());
+filtros.add(botonMostrarTodos, BorderLayout.SOUTH);
         add(panelSuperior, BorderLayout.NORTH);
+        add(filtros, BorderLayout.WEST);
         add(new JScrollPane(tablaRegistros), BorderLayout.CENTER);
         add(busqueda, BorderLayout.SOUTH);
 
-        setSize(1000, 600);
+        setSize(1150, 750);
         setLocationRelativeTo(null);
     }
 
